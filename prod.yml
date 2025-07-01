@@ -14,6 +14,8 @@ services:
       
       - "traefik.http.middlewares.registryHeaders.headers.customresponseheaders.Strict-Transport-Security=max-age=63072000; includeSubDomains; preload"
       - "traefik.http.middlewares.registryHeaders.headers.customresponseheaders.X-Frame-Options=SAMEORIGIN"
+      - "traefik.http.middlewares.registryHeaders.headers.customresponseheaders.X-Content-Type-Options=nosniff"
+      - "traefik.http.middlewares.registryHeaders.headers.customresponseheaders.Content-Security-Policy=default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; frame-ancestors 'none'"
       - "traefik.http.routers.registry.middlewares=registryHeaders"
     volumes:
       - /registrypwd/:/auth
