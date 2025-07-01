@@ -1,0 +1,30 @@
+services:
+  registry:
+    image: registry:2
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.registry.rule=Host(`registry.msolsys.pl`)"
+      - "traefik.http.services.registry.loadbalancer.server.port=5000"
+      - "traefik.http.routers.registry.entrypoints=websecure"
+      - "traefik.http.routers.registry.tls=true"
+      - "traefik.http.routers.registry.tls.certresolver=myresolver"
+      - "traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=200000000000"
+    volumes:
+      - /registrypwd/:/auth
+    environment:
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: "Registry Realm"
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
