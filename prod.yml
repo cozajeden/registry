@@ -4,7 +4,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
-      - "traefik.http.routers.registry.rule=Host(`registry.msolsys.pl`)"
+      - "traefik.http.routers.registry.rule=Host(`registry.msolsys.pl`) || Host(`registry.msolsys.com`)"
       - "traefik.http.services.registry.loadbalancer.server.port=5000"
       - "traefik.http.routers.registry.entrypoints=websecure"
       - "traefik.http.routers.registry.tls=true"
