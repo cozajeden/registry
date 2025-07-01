@@ -4,6 +4,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
+
       - "traefik.http.routers.registry.rule=Host(`registry.msolsys.pl`) || Host(`registry.msolsys.com`)"
       - "traefik.http.services.registry.loadbalancer.server.port=5000"
       - "traefik.http.routers.registry.entrypoints=websecure"
@@ -13,7 +14,7 @@ services:
       
       - "traefik.http.middlewares.registryHeaders.headers.customresponseheaders.Strict-Transport-Security=max-age=63072000; includeSubDomains; preload"
       - "traefik.http.middlewares.registryHeaders.headers.customresponseheaders.X-Frame-Options=SAMEORIGIN"
-      - "traefik.http.registry.portainer.middlewares=registryHeaders"
+      - "traefik.http.routers.registry.middlewares=registryHeaders"
     volumes:
       - /registrypwd/:/auth
     environment:
