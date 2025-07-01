@@ -10,6 +10,10 @@ services:
       - "traefik.http.routers.registry.tls=true"
       - "traefik.http.routers.registry.tls.certresolver=myresolver"
       - "traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=200000000000"
+      
+      - "traefik.http.middlewares.registryHeaders.headers.customresponseheaders.Strict-Transport-Security=max-age=63072000; includeSubDomains; preload"
+      - "traefik.http.middlewares.registryHeaders.headers.customresponseheaders.X-Frame-Options=SAMEORIGIN"
+      - "traefik.http.registry.portainer.middlewares=registryHeaders"
     volumes:
       - /registrypwd/:/auth
     environment:
